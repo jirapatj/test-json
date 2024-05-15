@@ -1,0 +1,17 @@
+{
+  "menu": {
+    "id": "file",
+    "value": "File"
+  },
+  "name": "jiraj",
+  "list": [
+    {
+      "code": "01",
+      "description": "TH"
+    },
+    {
+      "code": "02",
+      "description": "EN"
+    }
+  ]
+}
