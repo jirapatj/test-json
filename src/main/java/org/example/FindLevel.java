@@ -3,6 +3,8 @@ package org.example;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,10 +21,12 @@ public class FindLevel {
         JsonNode jsonNode = objectMapper.readTree(jsonString);
 
         // Specify the level to search for
-        int targetLevel = 2;
+        int endTargetLevel = 6;
 
         // Find all attributes at the specified level
-        findAttributesAtLevel(jsonNode, targetLevel, 1, "");
+        for (int idx = 0; idx < endTargetLevel; idx++) {
+            findAttributesAtLevel(jsonNode, idx, 1, "");
+        }
     }
 
     private static void findAttributesAtLevel(JsonNode jsonNode, int targetLevel, int currentLevel, String parentName) {
@@ -53,8 +57,24 @@ public class FindLevel {
             while (fieldsIterator.hasNext()) {
                 Map.Entry<String, JsonNode> field = fieldsIterator.next();
                 String attributeName = field.getKey();
-                System.out.println("Parent: " + parentName + ", Level: " + level + ", Attribute: " + attributeName);
+//                System.out.println("Parent: " + parentName + ", Level: " + level + ", Attribute: " + attributeName);
+                String content = "Parent: " + parentName + ", Level: " + level + ", Attribute: " + attributeName;
+                writeFile(content);
             }
+        }
+    }
+
+    private static void writeFile(String contentToAppend) {
+        String filePath = "output.txt";
+
+        try (FileWriter fileWriter = new FileWriter(filePath, true);
+             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+
+            bufferedWriter.write(contentToAppend);
+            bufferedWriter.newLine();  // Adds a new line after the content
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
